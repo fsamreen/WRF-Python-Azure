@@ -12,7 +12,7 @@ from Subnet import Subnet
 import paramiko
 import sys, os, time
 
-#paramiko.util.log_to_file('/Users/samreen/Documents/Jupyter2018/testscript.sh')
+#paramiko.util.log_to_file('/Users/..../testscript.sh')
 
 
 class GetIP():
