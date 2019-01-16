@@ -1,4 +1,4 @@
-# Auth: Faiza Samreen
+Auth: Faiza Samreen
 # This code is written as part of the EPSRC project - "Models in the Cloud" - Ensemble 2017-2019.
 
 # WRF-Python-Azure
