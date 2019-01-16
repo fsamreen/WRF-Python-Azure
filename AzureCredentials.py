@@ -1,10 +1,16 @@
-#class deffinition
+# """
+# @Desc: parse the credential file to extract relevant information.
+# @Input: '.txt' file (credentials.txt)
+# @Output: subscriptionID, clientID, tenantID, secreteID and credentials as a complete object.
+# """
+
 import azure
 from azure.common.credentials import ServicePrincipalCredentials
 from azure.mgmt.resource import ResourceManagementClient
 from azure.mgmt.compute import ComputeManagementClient
 from azure.mgmt.network import NetworkManagementClient
 from azure.mgmt.compute.models import DiskCreateOption
+
 class AzureCredentials:
     def __init__(self, filename):
         self.filename=filename

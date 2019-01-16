@@ -1,3 +1,9 @@
+# """
+# @Desc: creates or delete a Resource Group in a specified location.
+# @Input: location and resource group name.
+# @Output: creates or delete a Resource Group in a given location.
+# """
+
 import azure
 from azure.common.credentials import ServicePrincipalCredentials
 from azure.mgmt.resource import ResourceManagementClient
@@ -22,4 +28,3 @@ class ResourceGroup:
     def delete_resource_group(self):
         delete_async_operation = self.resource_group_client.resource_groups.delete(self.group_name)
         delete_async_operation.wait()
-

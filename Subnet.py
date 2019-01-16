@@ -1,3 +1,9 @@
+# """
+# @Desc: creates a subnet.
+# @Input: location and resource group name.
+# @Output: creates a subnet in a given Resource Group.
+# """
+
 import azure
 from azure.common.credentials import ServicePrincipalCredentials
 from azure.mgmt.resource import ResourceManagementClient
@@ -24,8 +30,3 @@ class Subnet:
         )
 
         return creation_result.result()
-
-
-
-
-

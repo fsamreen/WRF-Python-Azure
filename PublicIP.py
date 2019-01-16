@@ -1,3 +1,9 @@
+# """
+# @Desc: Creates Public IP.
+# @Input: location and resource group name.
+# @Output: Creates a Public IP to be attached to a VM.
+# """
+
 import azure
 from azure.common.credentials import ServicePrincipalCredentials
 from azure.mgmt.resource import ResourceManagementClient

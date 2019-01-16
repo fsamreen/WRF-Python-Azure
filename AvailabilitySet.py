@@ -1,3 +1,9 @@
+# """
+# @Desc: creates availability set.
+# @Input: location and resource group name.
+# @Output: creates availability set within a resource group in a given location.
+# """
+
 import azure
 from azure.common.credentials import ServicePrincipalCredentials
 from azure.mgmt.resource import ResourceManagementClient
@@ -23,7 +29,3 @@ class AvailabilitySet:
             'myAVSet',
             avset_params
         )
-
-
-
-

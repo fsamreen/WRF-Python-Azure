@@ -1,3 +1,9 @@
+# """
+# @Desc: Creates  NIC.
+# @Input: location, resource group name and node IP.
+# @Output: Creates a NIC for a VM IP.
+# """
+
 import azure
 from azure.common.credentials import ServicePrincipalCredentials
 from azure.mgmt.resource import ResourceManagementClient
@@ -42,4 +48,3 @@ class CreateNIC:
         )
 
         return creation_result.result()
-

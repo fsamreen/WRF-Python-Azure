@@ -1,3 +1,9 @@
+# """
+# @Desc: creates a virtual network.
+# @Input: location and resource group name.
+# @Output: creates a virtual network within a resource group in a given location.
+# """
+
 import azure
 from azure.common.credentials import ServicePrincipalCredentials
 from azure.mgmt.resource import ResourceManagementClient

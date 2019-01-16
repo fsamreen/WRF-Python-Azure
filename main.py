@@ -17,25 +17,24 @@ from GetIP import GetIP
 
 
 # ---- Define variable values .......
+# ----Default values are given, could be changhed accordingly....
 File_Name = "credentials.txt"
 Location= 'westeurope'
 Group_Name='WRFPhase2'
 vm_name='wrfnode'
 node_ip='nodeIP'
 node_nic='nodeNI'
-#user_name='wrfuser'
-#password=''
 user_name='wrfuser'
-password='Ensemble@2017'
+password='xyz'
 number_nodes=3
 
 
 # ---- Call object of Azurecredential class to get credentials .....
+#----------------------------------------------------------------------
+# ---- i.e. Resource group, Availability Set, Virtual Network and Subnet.
 credential_object=AzureCredentials(File_Name)
 subscription_id=credential_object.get_subscription_id()
 credentials=credential_object.get_credentials()
-print(credentials)
-print(subscription_id)
 
 # ---- Initialise the management clients....
 resource_group_client = ResourceManagementClient(
@@ -52,10 +51,45 @@ compute_client = ComputeManagementClient(
 )
 
 # ---- Create all VM specific resources on Azure .....
+#-----------------------------------------------------
+# i.e. Resource group, Availability Set, Virtual Network and Subnet.
+# An alternate way of creating each resource is given under "Alternate-Code-1".
+
 create_resource_object=VmResources(resource_group_client,network_client,compute_client,Location,Group_Name)
 create_resource_object.create_vm_resources()
 
-#------ create each resource separately---- sub classes of above........
+# ---- Create an MPI and NFS supported Cluster to run WRF simulation ....
+#------------------------------------------------------------------------
+# A cluster is created using pre-built machine images of master and client nodes, where WRF and all the dependencies
+# are already installed on these images.
+
+for i in range(1,number_nodes):
+    public_ip_object=PublicIP(network_client,Location,Group_Name,node_ip=node_ip+str(i))
+    nic_object=CreateNIC(network_client,Location,Group_Name,node_ip=node_ip+str(i),node_nic=node_nic+str(i))
+    if i ==1:
+        vm_object=VirtualMachine(network_client,compute_client,Location,Group_Name,user_name,password,node_nic=node_nic+str(i),vm_name="wrfmaster")
+    else:
+        vm_object = VirtualMachine(network_client, compute_client, Location, Group_Name, user_name, password,
+                                   node_nic=node_nic + str(i), vm_name=vm_name + str(i))
+    public_ip_object.create_public_ip_address()
+    nic_object.create_nic()
+    if i==1:
+        vm_object.create_vm_master()
+    else:
+        vm_object.create_vm_client()
+# ------ end of create cluster....
+
+## ---- Get Public IP .....
+# Sort passwor-less access in a cluster.
+public_ip_object=GetIP(network_client,Group_Name,number_nodes)
+
+public_ip_object.get_write_public_ip()
+
+public_ip_object.execute_ssh_command()
+
+
+
+# ---- Alternate-Code-1 ----
 #-----------------------------------------------------------------------
 # ---- Create a resource group in Azure ....
 #resource_group_object=ResourceGroup(resource_group_client,Location,Group_Name)
@@ -72,51 +106,4 @@ create_resource_object.create_vm_resources()
 # ---- Create Subnetwork in Azure ....
 #subnet_object=Subnet(network_client,Group_Name)
 #subnet_object.create_subnet()
-# ------------- end of create each resource -------------------------------
-
-# ---- Create Cluster ....
-#for i in range(1,number_nodes):
- #   public_ip_object=PublicIP(network_client,Location,Group_Name,node_ip=node_ip+str(i))
-  #  nic_object=CreateNIC(network_client,Location,Group_Name,node_ip=node_ip+str(i),node_nic=node_nic+str(i))
-   # if i ==1:
-    #    vm_object=VirtualMachine(network_client,compute_client,Location,Group_Name,user_name,password,node_nic=node_nic+str(i),vm_name="wrfmaster")
-    #else:
-     #   vm_object = VirtualMachine(network_client, compute_client, Location, Group_Name, user_name, password,
-      #                             node_nic=node_nic + str(i), vm_name=vm_name + str(i))
-    #public_ip_object.create_public_ip_address()
-    #nic_object.create_nic()
-    #if i==1:
-     #   vm_object.create_vm_master()
-    #else:
-     #   vm_object.create_vm_client()
-
-# ------ end of create cluster....
-
-# ---- Create Cluster with try catch....
-#### write commands
-
-# ---- Get Public IP .....
-
-#public_ip_object=GetIP(network_client,Group_Name,number_nodes)
-
-#public_ip_object.get_write_public_ip()
-
-#public_ip_object.execute_ssh_command()
-
-
-
-
-###public_ip_object.get_public_ip()
-#(stdoutstring, stderrstring)=public_ip_object.execute_ssh_command()
-#for stdoutrow in stdoutstring:
- #   print (stdoutrow)
-#public_ip_object.execute_command()
-
-
-#print(public_ip)
-
-#ip=public_ip_object.write_host_file()
-
-
-#file=open("tasty.txt", "a")
-#file.write(public_ip + " " + "hello\n")
+# ------------- end of Alternate-Code-1-------------------------------

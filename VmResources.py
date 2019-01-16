@@ -1,3 +1,9 @@
+# """
+# @Desc: creates VM-specific resources.
+# @Input: objects of ResourceGroup, AvailabilitySet, VirtualNet and Subnet.
+# @Output: creates subnet in a virtual network within a defined resource group and location.
+# """
+
 import azure
 from azure.common.credentials import ServicePrincipalCredentials
 from azure.mgmt.resource import ResourceManagementClient

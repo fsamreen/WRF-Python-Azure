@@ -1,3 +1,9 @@
+# """
+# @Desc: resolves passowrdless access in a cluster.
+# @Input: resource group name.
+# @Output: provides a passwordless access among all nodes.
+# """
+
 import azure
 from azure.common.credentials import ServicePrincipalCredentials
 from azure.mgmt.resource import ResourceManagementClient
@@ -8,12 +14,8 @@ from ReseourceGroup import ResourceGroup
 from AvailabilitySet import AvailabilitySet
 from VirtualNet import VirtualNet
 from Subnet import Subnet
-# This code will copy any file from the local directory to the virtual machine.
 import paramiko
 import sys, os, time
-
-#paramiko.util.log_to_file('/Users/..../testscript.sh')
-
 
 class GetIP():
     def __init__(self, network_client, group_name, i):
@@ -30,12 +32,10 @@ class GetIP():
             public_ip = public_ip_address.ip_address
            # private_ip = public_ip_address.ip_configuration.private_ip_address
             print("Public IP of node" + str(l) + ": "+ public_ip_address.ip_address)
-            #print(public_ip_address.ip_configuration.private_ip_address)
 
         # print current file path and directory ----
         print(repr(sys.argv[0]))
         print(os.path.dirname(__file__)+'/hostname.sh')
-
 
         # list all files in the current directory----
         files= [f for f in os.listdir('.') if os.path.isfile(f)]
@@ -78,16 +78,9 @@ class GetIP():
             # Go!
             sftp = paramiko.SFTPClient.from_transport(transport)
 
-            # Download
-            # filepath = '/etc/passwd'
-            # localpath = '/home/remotepasswd'
-            # sftp.get(filepath, localpath)
-
             # Upload
 
             filepath = '/home/wrfuser/hostname.sh'
-            # for Jupyter--#localpath = '/Users/.../hostname.sh'
-            #localpath = '/Users/...../hostname.sh'
             localpath=os.path.dirname(__file__) + '/hostname.sh'
             sftp.put(localpath, filepath)
 
@@ -97,7 +90,6 @@ class GetIP():
             transport.close()
 
         #return public_ip
-
 
     def execute_ssh_command(self):
         """
@@ -175,7 +167,6 @@ class GetIP():
                     #old#stdin, stdout, stderr = ssh.exec_command(command10)
 
                 else:
-                    print("hello")
                     stdin, stdout, stderr = ssh.exec_command(command1)
                     #stdin, stdout, stderr = ssh.exec_command(command)
                     #stdin, stdout, stderr = ssh.exec_command(command3)
@@ -199,19 +190,3 @@ class GetIP():
                 if ssh is not None:
                     # Close client connection.
                     ssh.close()
-
-
-    ######### Not in use function ------
-    def write_host_file(self):
-        file = open("hostname.sh", "a")
-        file.write("#!/bin/bash" + "\n")
-        rng=self.i
-        for j in range (1, rng):
-            myip="nodeIP"+str(j)
-            public_ip_address = self.network_client.public_ip_addresses.get(self.group_name, myip)
-            public_ip = public_ip_address.ip_address
-            # any of these forms could be used to write in a file...... sed option is preferrable.....
-            # dont delete ##file.write("echo " + "\"" + public_ip + " " + "wrfnode" + str(j) + "\"" + " " + "|" + " " + "tee -a /etc/hosts" + "\n")
-            file.write("sed -i " + "\"" + str(j) + "i " + public_ip + " " + "wrfnode" + str(j) + "\"" + " /etc/hosts")
-            file.close()
-
