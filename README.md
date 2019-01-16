@@ -1,8 +1,6 @@
-Auth: Faiza Samreen
+Auth: Faiza Samreen.
 This code is written as part of the EPSRC project - "Models in the Cloud" - Ensemble 2017-2019.
-
- WRF-Python-Azure
- This code creates a cluster of machines having WRF installed on it to support running simulations.
+This code creates a cluster of machines having WRF installed on it to support running simulations.
 
 # Required inputs
  1) Machine images of WRF-master and WRF-client. These images can be created by following a code on the following web page AAA.
