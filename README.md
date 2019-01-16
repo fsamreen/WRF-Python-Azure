@@ -1,5 +1,5 @@
-Auth: Faiza Samreen. This code is written as part of the EPSRC project - "Models in the Cloud" - Ensemble 2017-2019.
-
+Auth: Faiza Samreen.
+This code is written as part of the EPSRC project - "Models in the Cloud" - Ensemble 2017-2019.
 This code creates a cluster of machines having WRF installed on it to support running simulations.
 
 # Required inputs
