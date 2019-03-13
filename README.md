@@ -1,6 +1,10 @@
+![Image of Ensemble](https://github.com/fsamreen/WRFV1/blob/Single-node/Images/ensemble-no-sub-100mm.jpg)
 
-This code is written as part of the EPSRC project - "Models in the Cloud" - Ensemble 2017-2019.
-This code creates a cluster of machines having WRF installed on it to support running simulations.
+https://www.ensembleprojects.org
+
+
+This code is written as part of the EPSRC project - "Models in the Cloud".
+This code creates a cluster of machines having WRF installed on it to support running multiple simulations.
 
 # Required inputs
  1) Machine images of WRF-master and WRF-client. These images can be created by following a code on the Ensemble web page.
